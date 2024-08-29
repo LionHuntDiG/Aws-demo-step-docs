@@ -1,0 +1,36 @@
+Create a VPC with  demo-VPC 192.0.0.0/16
+Create a IGW called IGW-demo
+Attach VPC to IGW
+Create Subnets 
+public and private using https://nuvibit.com/vpc-subnet-calculator/
+Create route table > private-route
+Create route table > public-route
+Select each route table and edit subnet associations and add public-rt to public subnet and private-rt to private-subnet
+Select route table and edit routes and add route with internet gateway and add step 2 IGW
+create a ec2-instance called public-ec2 in public subnet of demo-vpc and ssh connectivity from all
+create a private-ec2 in private subnet of demo-vpc and ssh connectivity should be from public subnet only
+
+do  scp -i ebs-demo.pem ebs-demo.pem ubuntu@44.201.106.108:/home/ubuntu/ from laptop terminal so that we can send the key again to private instance
+
+use ssh -i ebs-demo@private-ip from public instance node, we should be able to login 
+
+As we have not enabled the NATGateway, we cannot talk to internet as a egress call, from private node. 
+
+Check ping google.com
+ and
+sudo apt update  > above two wont work. 
+
+Create NATGatewayin the public subnet with public connectivity and use elasticIP. 
+
+Go to Private-rt and edit routes add NATGateway with destination of all
+now test again sudo apt update and ping google it should work.
+
+Deletion:
+
+Delete ec2
+Delete NATGateway and release elasticIP  takes time to delete  NGW and release of EIP takes time.
+Delete Subnets
+delete route tables
+Go to IGW and Detach from VPC and delete IGW
+Delete VPC
+
